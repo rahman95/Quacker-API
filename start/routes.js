@@ -28,6 +28,18 @@ Route.group(() => {
   Route.get('/users_to_follow', 'UserController.usersToFollow');
 }).prefix('users').middleware(['auth:jwt'])
 
+Route.group(() => {
+  Route.post('/create', 'FavoriteController.favorite')
+}).prefix('favorites').middleware(['auth:jwt'])
+Route.delete('/destroy/:id', 'FavoriteController.unFavorite');
+
+
+
+Route.post('/tweet', 'TweetController.tweet').middleware(['auth:jwt'])
+Route.get('/tweets/:id', 'TweetController.show')
+Route.post('/tweets/reply/:id', 'TweetController.reply').middleware(['auth:jwt']);
+Route.delete('/tweets/destroy/:id', 'TweetController.destroy').middleware(['auth:jwt'])
+
 Route.post('/login', 'UserController.login');
 Route.post('/signup', 'UserController.signup');
 Route.put('/change_password', 'UserController.changePassword');
