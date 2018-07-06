@@ -1,10 +1,10 @@
 'use strict'
 
-class UserController {
-  const User = use('App/Models/User')
-  const Tweet = use('App/Models/Tweet')
-  const Hash = use('Hash')
+const User = use('App/Models/User')
+const Tweet = use('App/Models/Tweet')
+const Hash = use('Hash')
 
+class UserController {
   async me ({ auth, response }) {
     const user = await User.query()
         .where('id', auth.current.user.id)
@@ -43,12 +43,16 @@ class UserController {
 
       return response.json({
         status: 'success',
-        data: token
+        data: {
+            user,
+            token
+        },
       });
     } catch (error) {
+
       return response.status(400).json({
         status: 'error',
-        message: 'There was a problem creating the user, please try again later.'
+        message: 'There was a problem creating the user, please try again later.',
       });
     }
   }
@@ -62,7 +66,10 @@ class UserController {
 
       return response.json({
         status: 'success',
-        data: token
+        data: {
+            user,
+            token
+        },
       })
     } catch (error) {
       return response.status(400).json({
